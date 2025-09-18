@@ -164,4 +164,18 @@ main {
   border: 2px solid #2d89ef;
   border-radius: 8px;
   padding: 15px;
-  max-height: 300
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 20px;
+}
+
+#leaderboard p, #top-facts p {
+  margin: 5px 0;
+  padding: 5px;
+  border-bottom: 1px solid #ccc;
+  font-size: 0.95em;
+}
+
+#top-facts p {
+  font-weight: bold;
+}
