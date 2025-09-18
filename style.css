@@ -16,7 +16,26 @@ header {
   font-weight: bold;
 }
 
-/* Container for content */
+/* Navigation menu */
+nav {
+  background: #e0e0e0;
+  padding: 10px;
+  text-align: center;
+}
+
+nav a {
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #2d89ef;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #1a5fb4;
+}
+
+/* Main content container */
 main {
   max-width: 800px;
   margin: 30px auto;
@@ -33,4 +52,10 @@ main {
   border-left: 6px solid #2d89ef;
   background: #f0f8ff;
   border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.country:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
