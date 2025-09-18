@@ -44,4 +44,121 @@
   </main>
 
   <!-- Firebase -->
-  <script src="https:
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <script>
+    // Firebase config - replace with your values
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // ----------------------------
+    // Private Submissions
+    const submitBtn = document.getElementById("submit-fact");
+    const countryInput = document.getElementById("user-country");
+    const factInput = document.getElementById("user-fact");
+    const thankyou = document.getElementById("thankyou");
+
+    submitBtn.addEventListener("click", () => {
+      const country = countryInput.value.trim();
+      const fact = factInput.value.trim();
+
+      if (!country && !fact) return alert("Please enter a country or a fact.");
+
+      const newSubmission = {
+        country: country || null,
+        fact: fact || null,
+        timestamp: Date.now()
+      };
+
+      db.ref("submissions").push(newSubmission)
+        .then(() => {
+          countryInput.value = "";
+          factInput.value = "";
+          thankyou.style.display = "block";
+          setTimeout(() => thankyou.style.display = "none", 3000);
+        });
+    });
+
+    // ----------------------------
+    // Optional custom facts
+    const customFacts = {
+      "India": "India is the world’s largest democracy with over 1.4 billion people.",
+      "Canada": "Canada has more lakes than the rest of the world’s lakes combined.",
+      "Australia": "Australia is home to more kangaroos than humans.",
+      "Japan": "Japan has more than 5 million vending machines, selling everything from drinks to umbrellas.",
+      "Egypt": "Egypt is home to the Great Pyramid of Giza, the last surviving wonder of the ancient world."
+    };
+
+    const countryListDiv = document.getElementById("country-list");
+
+    // Fetch all countries
+    fetch("https://restcountries.com/v3.1/all")
+      .then(res => res.json())
+      .then(data => {
+        data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+        data.forEach(country => {
+          const countryName = country.name.common;
+          const flagURL = country.flags.png;
+          const fact = customFacts[countryName] || `This is ${countryName}, a beautiful country!`;
+
+          const div = document.createElement("div");
+          div.className = "country";
+          div.innerHTML = `
+            <img src="${flagURL}" alt="${countryName} Flag" class="flag">
+            <h2>${countryName}</h2>
+            <p>${fact}</p>
+          `;
+
+          countryListDiv.appendChild(div);
+        });
+      })
+      .catch(err => console.log("Error fetching countries:", err));
+
+    // ----------------------------
+    // Search Filter
+    const searchInput = document.getElementById("search");
+    searchInput.addEventListener("keyup", function() {
+      const countryList = document.getElementsByClassName("country");
+      let filter = searchInput.value.toLowerCase();
+      let matches = 0;
+      for (let i = 0; i < countryList.length; i++) {
+        const countryName = countryList[i].getElementsByTagName("h2")[0].innerText.toLowerCase();
+        if (countryName.includes(filter)) {
+          countryList[i].style.display = "";
+          matches++;
+        } else {
+          countryList[i].style.display = "none";
+        }
+      }
+      document.getElementById("no-results").style.display = matches === 0 ? "block" : "none";
+    });
+
+    // ----------------------------
+    // Random Country Fact
+    const randomBtn = document.getElementById("random-btn");
+    randomBtn.addEventListener("click", function() {
+      const countryList = document.getElementsByClassName("country");
+      const visibleCountries = [];
+      for (let i = 0; i < countryList.length; i++) {
+        if (countryList[i].style.display !== "none") visibleCountries.push(countryList[i]);
+      }
+      if (visibleCountries.length === 0) return;
+      for (let i = 0; i < countryList.length; i++) countryList[i].style.display = "none";
+      const randomIndex = Math.floor(Math.random() * visibleCountries.length);
+      visibleCountries[randomIndex].style.display = "";
+    });
+  </script>
+</body>
+</html>
