@@ -21,10 +21,13 @@
     <h1>All Countries</h1>
     <p>Here’s a growing list of countries with fun facts:</p>
 
-    <!-- Sticky search box -->
+    <!-- Sticky Search Bar -->
     <input type="text" id="search" placeholder="Search for a country..." />
 
-    <!-- Country facts list -->
+    <!-- Random Fact Button -->
+    <button id="random-btn">Show Random Fact</button>
+
+    <!-- Country Facts List -->
     <div id="country-list">
       <div class="country">
         <h2>India 🇮🇳</h2>
@@ -51,19 +54,71 @@
         <p>Japan has more than 5 million vending machines, selling everything from drinks to umbrellas.</p>
       </div>
     </div>
+
+    <p id="no-results" style="display:none;">No results found.</p>
+
+    <!-- Private Submission Form -->
+    <h2>Submit a Country or Fact</h2>
+    <input type="text" id="user-country" placeholder="Country Name">
+    <input type="text" id="user-fact" placeholder="Your Fact">
+    <button id="submit-fact">Submit</button>
+    <p id="thankyou" style="display:none; color:green;">Thank you! Your submission has been recorded.</p>
+
   </main>
 
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
   <script>
-    // Simple search filter with "No results" message
+    // Firebase config - replace with your values
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // ----------------------------
+    // Private Submissions
+    const submitBtn = document.getElementById("submit-fact");
+    const countryInput = document.getElementById("user-country");
+    const factInput = document.getElementById("user-fact");
+    const thankyou = document.getElementById("thankyou");
+
+    submitBtn.addEventListener("click", () => {
+      const country = countryInput.value.trim();
+      const fact = factInput.value.trim();
+
+      if (!country && !fact) return alert("Please enter a country or a fact.");
+
+      const newSubmission = {
+        country: country || null,
+        fact: fact || null,
+        timestamp: Date.now()
+      };
+
+      db.ref("submissions").push(newSubmission)
+        .then(() => {
+          countryInput.value = "";
+          factInput.value = "";
+          thankyou.style.display = "block";
+          setTimeout(() => thankyou.style.display = "none", 3000);
+        });
+    });
+
+    // ----------------------------
+    // Search Filter
     const searchInput = document.getElementById("search");
     const countryList = document.getElementById("country-list").getElementsByClassName("country");
-
-    // Create "no results" message
-    const noResults = document.createElement("p");
-    noResults.id = "no-results";
-    noResults.innerText = "No results found.";
-    noResults.style.display = "none";
-    document.getElementById("country-list").appendChild(noResults);
+    const noResults = document.getElementById("no-results");
 
     searchInput.addEventListener("keyup", function() {
       let filter = searchInput.value.toLowerCase();
@@ -79,12 +134,24 @@
         }
       }
 
-      // Show message if no matches
-      if (matches === 0) {
-        noResults.style.display = "block";
-      } else {
-        noResults.style.display = "none";
+      noResults.style.display = matches === 0 ? "block" : "none";
+    });
+
+    // ----------------------------
+    // Random Country Fact
+    const randomBtn = document.getElementById("random-btn");
+    randomBtn.addEventListener("click", function() {
+      const visibleCountries = [];
+      for (let i = 0; i < countryList.length; i++) {
+        if (countryList[i].style.display !== "none") visibleCountries.push(countryList[i]);
       }
+
+      if (visibleCountries.length === 0) return;
+
+      for (let i = 0; i < countryList.length; i++) countryList[i].style.display = "none";
+
+      const randomIndex = Math.floor(Math.random() * visibleCountries.length);
+      visibleCountries[randomIndex].style.display = "";
     });
   </script>
 </body>
