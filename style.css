@@ -1,4 +1,3 @@
-/* Reset some default spacing */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -6,7 +5,6 @@ body {
   color: #333;
 }
 
-/* Header */
 header {
   background: #2d89ef;
   color: white;
@@ -16,7 +14,6 @@ header {
   font-weight: bold;
 }
 
-/* Navigation menu */
 nav {
   background: #e0e0e0;
   padding: 10px;
@@ -35,7 +32,6 @@ nav a:hover {
   color: #1a5fb4;
 }
 
-/* Main content container */
 main {
   max-width: 800px;
   margin: 30px auto;
@@ -45,7 +41,6 @@ main {
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* Country fact boxes */
 .country {
   margin-bottom: 20px;
   padding: 15px;
@@ -62,7 +57,6 @@ main {
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* Country flag images */
 .flag {
   width: 50px;
   height: auto;
@@ -76,7 +70,6 @@ main {
   transform: scale(1.1);
 }
 
-/* Search bar */
 #search {
   width: 100%;
   padding: 12px;
@@ -84,15 +77,12 @@ main {
   border: 2px solid #2d89ef;
   border-radius: 8px;
   font-size: 1em;
-
-  /* Sticky positioning */
   position: sticky;
   top: 0;
   background: white;
   z-index: 10;
 }
 
-/* "No results found" message */
 #no-results {
   text-align: center;
   font-size: 1.1em;
@@ -100,7 +90,6 @@ main {
   margin-top: 20px;
 }
 
-/* Random Fact Button */
 #random-btn {
   padding: 12px 20px;
   background-color: #2d89ef;
@@ -117,7 +106,6 @@ main {
   background-color: #1a5fb4;
 }
 
-/* Private Submission Inputs */
 #user-country, #user-fact {
   width: 48%;
   padding: 10px;
