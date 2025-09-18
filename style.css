@@ -53,11 +53,27 @@ main {
   background: #f0f8ff;
   border-radius: 8px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  align-items: center;
 }
 
 .country:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Country flag images */
+.flag {
+  width: 50px;
+  height: auto;
+  margin-right: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: transform 0.2s ease;
+}
+
+.flag:hover {
+  transform: scale(1.1);
 }
 
 /* Search bar */
