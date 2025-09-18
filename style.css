@@ -83,3 +83,50 @@ main {
   color: #555;
   margin-top: 20px;
 }
+
+/* Random Fact Button */
+#random-btn {
+  padding: 12px 20px;
+  background-color: #2d89ef;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+}
+
+#random-btn:hover {
+  background-color: #1a5fb4;
+}
+
+/* Private Submission Inputs */
+#user-country, #user-fact {
+  width: 48%;
+  padding: 10px;
+  margin: 5px 1%;
+  border: 2px solid #2d89ef;
+  border-radius: 6px;
+  font-size: 1em;
+}
+
+#submit-fact {
+  padding: 10px 20px;
+  background-color: #2d89ef;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  margin: 5px 0 20px;
+  transition: background-color 0.3s ease;
+}
+
+#submit-fact:hover {
+  background-color: #1a5fb4;
+}
+
+#thankyou {
+  font-weight: bold;
+}
